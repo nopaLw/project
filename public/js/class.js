@@ -2,12 +2,12 @@ console.log("Hello from class.js");
 console.log(window.location.host);
 console.log(window.location.protocol);
 
-// Determine WebSocket protocol based on current protocol
+// Untuk menyesuaikan websocket dengan protokol yang dipakai
 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
 const messagesContainer = document.getElementById('messages');
 
-// Handle WebSocket connection
+// Websocket
 ws.onopen = () => {
     console.log('Class is connected to WebSocket server');
 };
@@ -16,12 +16,12 @@ ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     
     if (data.type === 'history') {
-        // Display message history
+        // Display history panggilan
         data.messages.forEach(message => {
             appendMessage(message);
         });
     } else if (data.type === 'message') {
-        // Display new message
+        // Display panggilan terbaru
         appendMessage(data);
     }
 };
@@ -34,7 +34,7 @@ ws.onclose = () => {
     console.log('Disconnected from WebSocket server');
 };
 
-// Function to append a message to the chat
+// Function untuk menambahkan panggilan ke chat
 function appendMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.className = `message ${message.sender === 'office' ? 'office' : 'class'}`;
@@ -50,6 +50,5 @@ function appendMessage(message) {
     messageElement.appendChild(timestamp);
     messagesContainer.appendChild(messageElement);
     
-    // Scroll to bottom
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }

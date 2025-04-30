@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+.credit{
+    text-decoration: none;
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 14px;
+
+}
 .judul{
     text-align: center;
     justify-self: center;
@@ -110,6 +118,7 @@ h1 {
 }
 .message {
     padding: 10px 15px;
+    font-size:x-large ;
     border-radius: 15px;
     word-wrap: break-word;
 }
