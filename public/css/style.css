@@ -94,6 +94,24 @@ h1 {
     color: #3498db;
 }
 
+.clear-button {
+    text-decoration: none;
+    background-color: #e74c3c;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.clear-button:hover {
+    background-color: #f0f2f5;
+    color: #e74c3c;
+}
+
 .chat-container {
     background-color: #fff;
     border-radius: 10px;

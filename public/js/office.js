@@ -9,6 +9,7 @@ const ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
 const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
+const clearHistoryButton = document.getElementById('clearHistory');
 
 // Websocket
 ws.onopen = () => {
@@ -26,6 +27,9 @@ ws.onmessage = (event) => {
     } else if (data.type === 'message') {
         // Display panggilan terbaru
         appendMessage(data);
+    } else if (data.type === 'clear_history') {
+        // menghapus history
+        messagesContainer.innerHTML = '';
     }
 };
 
@@ -75,5 +79,16 @@ sendButton.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         sendMessage();
+    }
+});
+
+// function hapus history
+clearHistoryButton.addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear all message history?')) {
+        ws.send(JSON.stringify({
+            type: 'clear_history',
+            sender: 'office'
+        }));
+        messagesContainer.innerHTML = '';
     }
 });

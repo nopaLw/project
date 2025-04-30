@@ -23,6 +23,9 @@ ws.onmessage = (event) => {
     } else if (data.type === 'message') {
         // Display panggilan terbaru
         appendMessage(data);
+    } else if (data.type === 'clear_history') {
+        // Clear messages when server broadcasts clear
+        messagesContainer.innerHTML = '';
     }
 };
 
