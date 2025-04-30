@@ -38,16 +38,16 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
         const data = JSON.parse(message);
         
-        // Add timestamp to message
+        // menambahkan waktu chat dikirim
         const messageWithTimestamp = {
             ...data,
             timestamp: new Date().toLocaleTimeString()
         };
         
-        // Store message in history
+        // menyimpan history 
         messageHistory.push(messageWithTimestamp);
         
-        // Broadcast message to all connected clients
+        // broadcast chat ke semua display yang connect
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({
