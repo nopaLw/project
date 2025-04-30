@@ -4,9 +4,7 @@ console.log(window.location.protocol);
 
 // Untuk menyesuaikan websocket dengan protokol yang dipakai
 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-const wsUrl = `${wsProtocol}//${window.location.host}`;
-console.log('Connecting to WebSocket:', wsUrl);
-const ws = new WebSocket(wsUrl);
+const ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
 
 const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('messageInput');
@@ -30,7 +28,7 @@ ws.onmessage = (event) => {
         // Display panggilan terbaru
         appendMessage(data);
     } else if (data.type === 'clear_history') {
-        // menghapus history
+        // Clear messages when server broadcasts clear
         messagesContainer.innerHTML = '';
     }
 };
@@ -41,14 +39,9 @@ ws.onerror = (error) => {
 
 ws.onclose = () => {
     console.log('Disconnected from WebSocket server');
-    // Try to reconnect after 5 seconds
-    setTimeout(() => {
-        console.log('Attempting to reconnect...');
-        window.location.reload();
-    }, 5000);
 };
 
-// Function untuk menambahkan panggilan ke chat
+//  Function untuk menambahkan panggilan ke chat
 function appendMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.className = `message office`;
@@ -64,6 +57,7 @@ function appendMessage(message) {
     messageElement.appendChild(timestamp);
     messagesContainer.appendChild(messageElement);
     
+
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
@@ -88,7 +82,7 @@ messageInput.addEventListener('keypress', (e) => {
     }
 });
 
-// function hapus history
+// Clear history functionality
 clearHistoryButton.addEventListener('click', () => {
     if (confirm('Are you sure you want to clear all message history?')) {
         ws.send(JSON.stringify({

@@ -9,20 +9,18 @@ const port = process.env.PORT || 3456;
 // untuk menyimpan chat
 const messageHistory = [];
 
-// Serve static files from the public directory
 app.use(express.static('public'));
 
-// Routes
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/class', (req, res) => {
-  res.sendFile(__dirname + '/public/class.html');
-});
-
 app.get('/office', (req, res) => {
   res.sendFile(__dirname + '/public/office.html');
+});
+
+app.get('/class', (req, res) => {
+  res.sendFile(__dirname + '/public/class.html');
 });
 
 // websocket
@@ -41,17 +39,20 @@ wss.on('connection', (ws) => {
         const data = JSON.parse(message);
         
         if (data.type === 'clear_history') {
-            // Clear message history
-            messageHistory.length = 0;
-            
-            // Broadcast clear history to all clients
-            wss.clients.forEach((client) => {
-                if (client.readyState === WebSocket.OPEN) {
-                    client.send(JSON.stringify({
-                        type: 'clear_history'
-                    }));
-                }
-            });
+            // Only allow office to clear history
+            if (data.sender === 'office') {
+                // Clear message history
+                messageHistory.length = 0;
+                
+                // Broadcast clear history to all clients
+                wss.clients.forEach((client) => {
+                    if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify({
+                            type: 'clear_history'
+                        }));
+                    }
+                });
+            }
             return;
         }
         
@@ -80,12 +81,6 @@ wss.on('connection', (ws) => {
     });
 });
 
-// Start server only if not in production (Vercel)
-if (process.env.NODE_ENV !== 'production') {
-    server.listen(port, () => {
-        console.log(`Student Caller running on port http://0.0.0.0:${port}`);
-    });
-}
-
-// Export for Vercel
-module.exports = app;
+server.listen(port, () => {
+  console.log(`Student Caller running on port http://0.0.0.0:${port}`)
+});
