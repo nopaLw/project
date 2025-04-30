@@ -4,7 +4,9 @@ console.log(window.location.protocol);
 
 // Untuk menyesuaikan websocket dengan protokol yang dipakai
 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-const ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
+const wsUrl = `${wsProtocol}//${window.location.host}`;
+console.log('Connecting to WebSocket:', wsUrl);
+const ws = new WebSocket(wsUrl);
 const messagesContainer = document.getElementById('messages');
 
 // Websocket
@@ -24,7 +26,7 @@ ws.onmessage = (event) => {
         // Display panggilan terbaru
         appendMessage(data);
     } else if (data.type === 'clear_history') {
-        // Clear messages when server broadcasts clear
+        // menghapus history
         messagesContainer.innerHTML = '';
     }
 };
@@ -35,6 +37,11 @@ ws.onerror = (error) => {
 
 ws.onclose = () => {
     console.log('Disconnected from WebSocket server');
+    // Try to reconnect after 5 seconds
+    setTimeout(() => {
+        console.log('Attempting to reconnect...');
+        window.location.reload();
+    }, 5000);
 };
 
 // Function untuk menambahkan panggilan ke chat
