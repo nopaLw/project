@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
+const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
@@ -9,18 +10,19 @@ const port = process.env.PORT || 3456;
 // untuk menyimpan chat
 const messageHistory = [];
 
-app.use(express.static('public'));
+// Update static file serving configuration
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/office', (req, res) => {
-  res.sendFile(__dirname + '/public/office.html');
+  res.sendFile(path.join(__dirname, 'public', 'office.html'));
 });
 
 app.get('/class', (req, res) => {
-  res.sendFile(__dirname + '/public/class.html');
+  res.sendFile(path.join(__dirname, 'public', 'class.html'));
 });
 
 // websocket
@@ -83,4 +85,15 @@ wss.on('connection', (ws) => {
 
 server.listen(port, () => {
   console.log(`Student Caller running on port http://0.0.0.0:${port}`)
+});
+
+// Add error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Handle 404
+app.use((req, res) => {
+  res.status(404).send('Sorry, page not found!');
 });
