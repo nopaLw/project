@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
-const path = require('path');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
@@ -10,19 +9,18 @@ const port = process.env.PORT || 3456;
 // untuk menyimpan chat
 const messageHistory = [];
 
-// Update static file serving configuration
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.get('/office', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'office.html'));
+  res.sendFile(__dirname + '/public/office.html');
 });
 
 app.get('/class', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'class.html'));
+  res.sendFile(__dirname + '/public/class.html');
 });
 
 // websocket
@@ -41,12 +39,12 @@ wss.on('connection', (ws) => {
         const data = JSON.parse(message);
         
         if (data.type === 'clear_history') {
-            // Only allow office to clear history
+            // hanya office screen yang bisa clear history
             if (data.sender === 'office') {
-                // Clear message history
+                // menghapus history panggilan
                 messageHistory.length = 0;
                 
-                // Broadcast clear history to all clients
+                // broadcast hapus history
                 wss.clients.forEach((client) => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.send(JSON.stringify({
@@ -85,15 +83,4 @@ wss.on('connection', (ws) => {
 
 server.listen(port, () => {
   console.log(`Student Caller running on port http://0.0.0.0:${port}`)
-});
-
-// Add error handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-// Handle 404
-app.use((req, res) => {
-  res.status(404).send('Sorry, page not found!');
 });
