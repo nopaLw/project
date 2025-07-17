@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+
 .credit{
     text-decoration: none;
     text-align: center;
@@ -12,14 +13,16 @@
     font-size: 14px;
 
 }
+
 .judul{
     text-align: center;
     justify-self: center;
 }
+
 .office-button {
     text-decoration: none;
     background-color: #3498db;
-    color: #ffffff;
+    color: #ffffff; 
     padding: 8px 16px;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -29,6 +32,7 @@
     background-color: #ffffff;
     color: #3498db;
 }
+
 
 .class-button {
     text-decoration: none;
@@ -44,16 +48,22 @@
     color: #3498db;
 }
 
+
 .message.class{
     font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    background-color: #f0f2f5; 
+    color: #333; 
     line-height: 1.6;
 }
+
 
 .container {
     max-width: 1200px;
@@ -63,6 +73,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 
 header {
     background-color: #fff;
@@ -80,6 +91,7 @@ h1 {
     font-size: 24px;
 }
 
+
 .back-button {
     text-decoration: none;
     background-color: #3498db;
@@ -94,9 +106,10 @@ h1 {
     color: #3498db;
 }
 
+
 .clear-button {
     text-decoration: none;
-    background-color: #e74c3c;
+    background-color: #e74c3c; 
     color: #ffffff;
     padding: 8px 16px;
     border-radius: 5px;
@@ -122,6 +135,7 @@ h1 {
     overflow: hidden;
 }
 
+
 .messages {
     flex: 1;
     padding: 20px;
@@ -134,22 +148,21 @@ h1 {
 .tombol-login{
     justify-self: center;
 }
+
+/* Pesan chat umum */
 .message {
     padding: 10px 15px;
-    font-size:x-large ;
+    font-size: x-large;
     border-radius: 15px;
     word-wrap: break-word;
+    background-color: #fff; /* default background for regular messages */
 }
 
+/* Style khusus untuk pesan dari office */
 .message.office {
     font-weight: bold;
     text-align: center;
-    background-color: #e3f2fd;
-    border-radius: 15px;
-}
-
-.message.class {
-    background-color: #f5f5f5;
+    background-color: #e3f2fd; 
     border-radius: 15px;
 }
 
@@ -159,6 +172,7 @@ h1 {
     margin-top: 5px;
 }
 
+
 .input-container {
     padding: 20px;
     background-color: #fff;
@@ -166,6 +180,7 @@ h1 {
     display: flex;
     gap: 10px;
 }
+
 
 input[type="text"] {
     flex: 1;
@@ -180,6 +195,7 @@ input[type="text"] {
 input[type="text"]:focus {
     border-color: #3498db;
 }
+
 
 button {
     padding: 10px 20px;
@@ -196,12 +212,14 @@ button:hover {
     background-color: #2980b9;
 }
 
+
 footer {
     text-align: center;
     padding: 20px;
     color: #666;
     font-size: 14px;
 }
+
 
 @media (max-width: 768px) {
     .container {
@@ -215,4 +233,26 @@ footer {
     .input-container {
         padding: 15px;
     }
+}
+
+.cls-pengirim {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: #f0f2f5;
+    color: #333;
+    margin-right: 10px;
+}
+.cls-pengirim:focus {
+    border-color: #3498db;
+}
+
+.message-sender {
+    font-size: 0.95em;
+    color: #1565c0;
+    font-weight: 600;
+    margin-bottom: 2px;
 }

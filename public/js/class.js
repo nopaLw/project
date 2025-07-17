@@ -2,29 +2,29 @@ console.log("Hello from class.js");
 console.log(window.location.host);
 console.log(window.location.protocol);
 
-// Untuk menyesuaikan websocket dengan protokol yang dipakai
+
 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
+
+// untuk menampilkan chat dari element dengan id messages
 const messagesContainer = document.getElementById('messages');
 
-// Websocket
+// websocket
 ws.onopen = () => {
     console.log('Class is connected to WebSocket server');
 };
+
 
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     
     if (data.type === 'history') {
-        // Display history panggilan
         data.messages.forEach(message => {
             appendMessage(message);
         });
     } else if (data.type === 'message') {
-        // Display panggilan terbaru
         appendMessage(data);
     } else if (data.type === 'clear_history') {
-        // hapus history panggilan
         messagesContainer.innerHTML = '';
     }
 };
@@ -37,14 +37,22 @@ ws.onclose = () => {
     console.log('Disconnected from WebSocket server');
 };
 
-// Function untuk menambahkan panggilan ke chat
+// untuk menampilkan atau menambahkan chat ke web
 function appendMessage(message) {
     const messageElement = document.createElement('div');
-    messageElement.className = `message ${message.sender === 'office' ? 'office' : 'class'}`;
+    messageElement.className = 'message office';
     
+    // untuk menampilkan nama pengirim
+    const senderDiv = document.createElement('div');
+    senderDiv.className = 'message-sender';
+    senderDiv.textContent = message.sender ? message.sender : 'Pengirim';
+    messageElement.appendChild(senderDiv);
+
+    // menampilkan isi chat
     const content = document.createElement('div');
     content.textContent = message.content;
     
+    // untuk menampilkan waktu pengiriman
     const timestamp = document.createElement('div');
     timestamp.className = 'message-timestamp';
     timestamp.textContent = message.timestamp;
@@ -53,5 +61,6 @@ function appendMessage(message) {
     messageElement.appendChild(timestamp);
     messagesContainer.appendChild(messageElement);
     
+   // agar chat tidak saling tumpang tindih
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }

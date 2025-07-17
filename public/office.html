@@ -1,32 +1,55 @@
+<!--
+  Office Screen HTML
+  This page allows office users to send and view chat messages, select sender, and clear chat history.
+-->
 <html>
 <head>
+    <!-- Meta tags for character set and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RT Student Caller - Office</title>
+    <!-- Link to the main stylesheet -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- Favicon for the browser tab -->
     <link rel="icon" type="image/x-icon" href="/images/favicon.jpeg">
+    <!-- Link to the JavaScript for office screen -->
     <script src="js/office.js" defer></script>
 </head>
 <body>
     <div class="container">
+        <!-- Header section with title and action buttons -->
         <header>
             <h1>Office Screen</h1>
             <div class="header-buttons">
+                <!-- Button to clear chat history -->
                 <button id="clearHistory" class="clear-button">Clear History</button>
+                <!-- Button to go back to the home page -->
                 <a href="/" class="back-button">Back to Home</a>
             </div>
         </header>
         <main>
             <div class="chat-container">
+                <!-- Container for chat messages -->
                 <div class="messages" id="messages">
-                    <!-- Panggilan akan ditampilkan disini -->
+                    <!-- Panggilan akan ditampilkan disini (Messages will be displayed here) -->
                 </div>
+                <!-- Input area for sending new messages -->
                 <div class="input-container">
+                    <!-- Dropdown to select the sender (pengirim) -->
+                    <select id="pengirim" class="cls-pengirim">
+                        <option value="Kepala sekolah">Kepala Sekolah</option>
+                        <option value="Guru">Guru</option>
+                        <option value="Staff TU">Staff TU</option>
+                        <option value="Orang tua">Orang Tua</option>
+                    </select>
+                    <!-- Text input for the message -->
                     <input type="text" id="messageInput" placeholder="Type your message...">
+                    <!-- Button to send the message -->
                     <button id="sendButton">Send</button>
                 </div>
             </div>
         </main>
+        <!-- Footer with copyright -->
         <footer>
             <p>&copy; 2025 with ❤️ by Muh Naufal Wildani</p>
         </footer>

@@ -1,3 +1,4 @@
+const { Console } = require('console');
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
@@ -8,6 +9,8 @@ const port = process.env.PORT || 3456;
 
 // untuk menyimpan chat
 const messageHistory = [];
+// menghapus history panggilan
+ messageHistory.length = 0;
 
 app.use(express.static('public'));
 
@@ -41,8 +44,7 @@ wss.on('connection', (ws) => {
         if (data.type === 'clear_history') {
             // hanya office screen yang bisa clear history
             if (data.sender === 'office') {
-                // menghapus history panggilan
-                messageHistory.length = 0;
+
                 
                 // broadcast hapus history
                 wss.clients.forEach((client) => {

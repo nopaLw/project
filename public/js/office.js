@@ -2,35 +2,12 @@ console.log("Hello from office.js");
 console.log(window.location.host);
 console.log(window.location.protocol);
 
-// Untuk menyesuaikan websocket dengan protokol yang dipakai
 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 const ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
 
-const messagesContainer = document.getElementById('messages');
-const messageInput = document.getElementById('messageInput');
-const sendButton = document.getElementById('sendButton');
-const clearHistoryButton = document.getElementById('clearHistory');
-
-// Websocket
+// websocket
 ws.onopen = () => {
     console.log('Office is connected to WebSocket server');
-};
-
-ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    
-    if (data.type === 'history') {
-        // Display history panggilan
-        data.messages.forEach(message => {
-            appendMessage(message);
-        });
-    } else if (data.type === 'message') {
-        // Display panggilan terbaru
-        appendMessage(data);
-    } else if (data.type === 'clear_history') {
-        // Clear messages when server broadcasts clear
-        messagesContainer.innerHTML = '';
-    }
 };
 
 ws.onerror = (error) => {
@@ -41,40 +18,78 @@ ws.onclose = () => {
     console.log('Disconnected from WebSocket server');
 };
 
-//  Function untuk menambahkan panggilan ke chat
+// function chat
+const messagesContainer = document.getElementById('messages');
+const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
+const clearHistoryButton = document.getElementById('clearHistory');
+const pengirim = document.getElementById('pengirim');
+
+// untuk websocket ketika menerima chat
+ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    
+    if (data.type === 'history') {
+        // menampilkan semuai chat
+        data.messages.forEach(message => {
+            appendMessage(message);
+        });
+    } else if (data.type === 'message') {
+        // menampilkan chat terbaru
+        appendMessage(data);
+    } else if (data.type === 'clear_history') {
+        // clear chat
+        messagesContainer.innerHTML = '';
+    }
+};
+
+
+
+// untuk menampilkan atau menambahkan chat ke web
 function appendMessage(message) {
     const messageElement = document.createElement('div');
     messageElement.className = `message office`;
     
+    // untuk menampilkan nama pengirim
+    const senderDiv = document.createElement('div');
+    senderDiv.className = 'message-sender';
+    senderDiv.textContent = message.sender ? message.sender : 'Pengirim';
+    messageElement.appendChild(senderDiv);
+
+    // untuk menampilkan isi chat
     const content = document.createElement('div');
     content.textContent = message.content;
     
+    // untuk menampilkan waktu pengiriman
     const timestamp = document.createElement('div');
     timestamp.className = 'message-timestamp';
     timestamp.textContent = message.timestamp;
     
+    // untuk memasukkan div kecil kedalam div utama
     messageElement.appendChild(content);
     messageElement.appendChild(timestamp);
     messagesContainer.appendChild(messageElement);
     
-
+    // agar chat tidak saling tumpang tindih
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-// mengirim panggilan
+// function mengirim chat
 function sendMessage() {
     const content = messageInput.value.trim();
+    const sender = pengirim ? pengirim.value : 'office';
     if (content) {
         ws.send(JSON.stringify({
             type: 'message',
             content: content,
-            sender: 'office'
+            sender: sender
         }));
         messageInput.value = '';
     }
 }
 
-// Event listeners
+
+// untuk kirim chat pakai event listener
 sendButton.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
@@ -82,7 +97,7 @@ messageInput.addEventListener('keypress', (e) => {
     }
 });
 
-// Clear history functionality
+// untuk clear chat
 clearHistoryButton.addEventListener('click', () => {
     if (confirm('Are you sure you want to clear all message history?')) {
         ws.send(JSON.stringify({
