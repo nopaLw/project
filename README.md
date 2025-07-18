@@ -2,8 +2,9 @@
 
 ## Features
 
-- School officer/teacher/headmaster can send a realtime message to each client
-- Client to listen to any new messages
+- One way chat. so only headmaster or teacher can send message from office.
+- Minimizing distractions during learning.
+- The message is delivered clearly and in real time.
 
 ## Technologies
 
@@ -13,11 +14,17 @@
 - Frontend:
   - HTML
   - Vanilla JS
+  - CSS
 
 ## Developer
 
 - Muh. Naufal Wildani
 - SMA 1 Pangkep
+
+## Contact person
+### instagram:
+- @nopal_wldn
+- @smanegeripangkep_official
 
 ##  License
 
