@@ -5,7 +5,7 @@ const WebSocket = require('ws');
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-const port = process.env.PORT || 3456;
+const port = process.env.PORT || 3000;
 
 // untuk menyimpan chat
 const messageHistory = [];
@@ -84,5 +84,5 @@ wss.on('connection', (ws) => {
 });
 
 server.listen(port, () => {
-  console.log(`Student Caller running on port http://0.0.0.0:${port}`)
+  console.log(`Student Caller running on port localhost:${port}`)
 });
